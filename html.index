@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM NIGHTMARES - Club Ranking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0f0f0f;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1c1c1c;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 20px #00ffcc;
+        }
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #00ffcc;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #141414;
+        }
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        th {
+            background-color: #222;
+        }
+        td input[type="text"], td input[type="number"] {
+            background-color: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 5px;
+            width: 100%;
+            text-align: center;
+        }
+        td input[type="file"] {
+            display: none;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #00ffcc;
+        }
+        .upload-btn {
+            background-color: #00ffcc;
+            border: none;
+            color: #000;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body><div class="container">
+    <h1>TM NIGHTMARES - Club Ranking</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Avatar</th>
+                <th>Player Name</th>
+                <th>Match Played</th>
+                <th>Match Won</th>
+                <th>Match Draw</th>
+                <th>Goals Scored</th>
+                <th>Goal Conceded</th>
+                <th>MOTM</th>
+                <th>Match Points</th>
+            </tr>
+        </thead>
+        <tbody id="player-rows">
+            <!-- Players will be inserted by JS -->
+        </tbody>
+    </table>
+</div><script>
+const players = [
+    "Sabbir Hossain Shanto", "Tanvir Ahmed", "Asif Abrar", "Nazmul Islam",
+    "Ak Ash", "Faysal Abrar", "Yasar Sommit", "Wasi Hai Tanmoy",
+    "Prottoy Provash", "Md Tanvir Ahmed", "Jahedul Islam",
+    "Mohammad Sourov", "Srabon Mahmud", "Tanvir Ahamed Rifat",
+    "Shezan Hossain"
+];
+
+const tableBody = document.getElementById('player-rows');
+
+players.forEach((name, index) => {
+    const id = `player${index+1}`;
+    const row = `
+        <tr>
+            <td>
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0D8ABC&color=fff" alt="Avatar" class="avatar" id="${id}-avatar">
+                <input type="file" id="${id}-upload" onchange="updateAvatar('${id}')">
+                <button class="upload-btn" onclick="document.getElementById('${id}-upload').click()">Upload</button>
+            </td>
+            <td><input type="text" value="${name}" disabled></td>
+            <td><input type="number" id="${id}_played" value="0"></td>
+            <td><input type="number" id="${id}_won" value="0"></td>
+            <td><input type="number" id="${id}_draw" value="0"></td>
+            <td><input type="number" id="${id}_scored" value="0"></td>
+            <td><input type="number" id="${id}_conceded" value="0"></td>
+            <td><input type="number" id="${id}_motm" value="0"></td>
+            <td><input type="number" id="${id}_points" value="0" disabled></td>
+        </tr>
+    `;
+    tableBody.innerHTML += row;
+});
+
+function updateAvatar(playerId) {
+    const fileInput = document.getElementById(playerId + '-upload');
+    const file = fileInput.files[0];
+    const avatarImg = document.getElementById(playerId + '-avatar');
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        avatarImg.src = e.target.result;
+    };
+    if (file) reader.readAsDataURL(file);
+}
+</script></body>
+</html>
